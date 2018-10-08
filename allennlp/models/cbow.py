@@ -8,6 +8,7 @@ from allennlp.nn import InitializerApplicator, RegularizerApplicator
 from allennlp.nn.util import masked_mean, get_text_field_mask
 from allennlp.training.metrics import CategoricalAccuracy
 
+## This is a test
 
 @Model.register("CBOW")
 class CBOW(Model):
