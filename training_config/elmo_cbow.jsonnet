@@ -2,27 +2,33 @@
     "dataset_reader": {
         "type": "ag",
         "token_indexers": {
-            "tokens": {
-                "type": "single_id",
-                "lowercase_tokens": true
-            }
-        },
+           "elmo":{
+              "type": "elmo_characters"
+	   }
+        }
     },
   "train_data_path": "s3://suching-dev/ag_news_csv/train.csv",
   "validation_data_path": "s3://suching-dev/ag_news_csv/test.csv",
     "model": {
-        "type": "cbow",
+        "type": "elmo_cnn",
         "dropout": 0.5,
         "text_field_embedder": {
             "token_embedders": {
-                "tokens": {
-                    "type": "embedding",
-                    "pretrained_file": "https://s3-us-west-2.amazonaws.com/allennlp/datasets/glove/glove.840B.300d.txt.gz",
-                    "embedding_dim": 300,
-                    "trainable": true
-                }
+                 "elmo": {
+			"type": "elmo_token_embedder",
+			"options_file": "https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json",
+			"weight_file": "https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5",
+			"do_layer_norm": false,
+			"dropout": 0.0
             }
+	 }
         },
+        "encoder": {
+                "type": "cnn",
+                "embedding_dim": 1024,
+                "num_filters": 50,
+                "ngram_filter_sizes": [3, 4, 5]
+	},
         "output_feedforward": {
             "input_dim": 300,
             "num_layers": 1,
@@ -67,6 +73,5 @@
             "mode": "max",
             "patience": 0
         }
-    }
 }
-
+}
