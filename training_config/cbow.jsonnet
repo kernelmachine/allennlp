@@ -1,12 +1,13 @@
 		{
     "dataset_reader": {
-        "type": "sst2",
+        "type": "sst_tokens",
         "token_indexers": {
             "tokens": {
                 "type": "single_id",
                 "lowercase_tokens": true
             }
-        }
+        },
+        "granularity": "2-class"
     },
   "train_data_path": "https://s3-us-west-2.amazonaws.com/allennlp/datasets/sst/train.txt",
   "validation_data_path": "https://s3-us-west-2.amazonaws.com/allennlp/datasets/sst/dev.txt",
@@ -33,7 +34,7 @@
         "output_logit": {
             "input_dim": 300,
             "num_layers": 1,
-            "hidden_dims": 3,
+            "hidden_dims": 2,
             "activations": "linear"
         },
         "initializer": [
@@ -47,6 +48,7 @@
     },
     "iterator": {
         "type": "bucket",
+        "sorting_keys": [["tokens", "num_tokens"]],
         "batch_size": 32
     },
     "trainer": {

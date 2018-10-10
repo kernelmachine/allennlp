@@ -5,12 +5,11 @@ from allennlp.models.model import Model
 from allennlp.modules import FeedForward
 from allennlp.modules import TextFieldEmbedder
 from allennlp.nn import InitializerApplicator, RegularizerApplicator
-from allennlp.nn.util import masked_mean, get_text_field_mask
 from allennlp.training.metrics import CategoricalAccuracy
 
 ## This is a test
 
-@Model.register("CBOW")
+@Model.register("cbow")
 class CBOW(Model):
     """
     This ``Model`` implements the ESIM sequence model described in `"Enhanced LSTM for Natural Language Inference"
@@ -70,7 +69,7 @@ class CBOW(Model):
         initializer(self)
 
     def forward(self,  # type: ignore
-                text: Dict[str, torch.LongTensor],
+                tokens: Dict[str, torch.LongTensor],
                 label: torch.IntTensor = None,
                 metadata: List[Dict[str, Any]] = None  # pylint:disable=unused-argument
                ) -> Dict[str, torch.Tensor]:
@@ -101,10 +100,9 @@ class CBOW(Model):
         loss : torch.FloatTensor, optional
             A scalar loss to be optimised.
         """
-        embedded_text = self._text_field_embedder(text)
-        text_mask = get_text_field_mask(text).float()
+        embedded_text = self._text_field_embedder(tokens)
 
-        encoded_text = masked_mean(embedded_text, text_mask, 1)
+        encoded_text = torch.sum(embedded_text, 1)
         # The projection layer down to the model dimension.  Dropout is not applied before
         # projection.
 
