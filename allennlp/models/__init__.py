@@ -24,3 +24,5 @@ from allennlp.models.simple_tagger import SimpleTagger
 from allennlp.models.esim import ESIM
 from allennlp.models.bimpm import BiMpm
 from allennlp.models.cbow import CBOW
+from allennlp.models.infersent import Infersent
+from allennlp.models.ulmfit import Ulmfit
