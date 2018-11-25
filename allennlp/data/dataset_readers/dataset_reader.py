@@ -39,8 +39,10 @@ class DatasetReader(Registrable):
         If this is true, ``instances()`` will return an object whose ``__iter__`` method
         reloads the dataset each time it's called. Otherwise, ``instances()`` returns a list.
     """
-    def __init__(self, lazy: bool = False) -> None:
+    def __init__(self, type: str = "train", lazy: bool = False) -> None:
         self.lazy = lazy
+        assert type in ("train", "valid", "test")
+        self.type = type
 
     def read(self, file_path: str) -> Iterable[Instance]:
         """
