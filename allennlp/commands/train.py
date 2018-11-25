@@ -146,7 +146,7 @@ def datasets_from_params(params: Params) -> Dict[str, Iterable[Instance]]:
     """
     Load all the datasets specified by the config.
     """
-    dataset_reader = DatasetReader.from_params(type="train", params.pop('dataset_reader'))
+    dataset_reader = DatasetReader.from_params(params.pop('dataset_reader'), type="train")
     validation_dataset_reader_params = params.pop("validation_dataset_reader", None)
 
     validation_and_test_dataset_reader: DatasetReader = dataset_reader
