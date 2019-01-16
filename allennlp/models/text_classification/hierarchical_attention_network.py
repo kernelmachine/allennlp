@@ -11,7 +11,7 @@ from allennlp.training.metrics import CategoricalAccuracy
 from allennlp.nn.util import get_text_field_mask
 
 
-@Model.register("han")
+@Model.register("hierarchical_attention_network")
 class HierarchicalAttentionNetwork(Model):
     """
     This ``Model`` implements the Hierarchical Attention Network described in

@@ -1,6 +1,6 @@
 {
     "dataset_reader": {
-        "type": "textcat",
+        "type": "text_classification_json",
         "segment_sentences": true,
         "debug": false,
         "token_indexers": {
@@ -11,10 +11,10 @@
         },
     },
   "datasets_for_vocab_creation": ["train"],
-  "train_data_path": "allennlp/tests/fixtures/data/textcat/ag_big.jsonl",
-  "validation_data_path": "allennlp/tests/fixtures/data/textcat/ag_big.jsonl",
+  "train_data_path": "allennlp/tests/fixtures/data/text_classification/ag_big.jsonl",
+  "validation_data_path": "allennlp/tests/fixtures/data/text_classification/ag_big.jsonl",
     "model": {
-        "type": "han",
+        "type": "hierarchical_attention_network",
         "text_field_embedder": {
             "token_embedders": {
                 "tokens": {

@@ -5,7 +5,7 @@ from allennlp.common.testing import ModelTestCase
 class TestHAN(ModelTestCase):
     def setUp(self):
         super(TestHAN, self).setUp()
-        self.set_up_model(self.FIXTURES_ROOT / 'han' / 'experiment.json',
+        self.set_up_model(self.FIXTURES_ROOT / 'hierarchical_attention_network' / 'experiment.json',
                           self.FIXTURES_ROOT / 'data' / 'textcat' / 'ag.jsonl')
 
     def test_model_can_train_save_and_load(self):
