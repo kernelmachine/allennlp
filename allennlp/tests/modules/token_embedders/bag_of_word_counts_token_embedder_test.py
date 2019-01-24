@@ -6,7 +6,7 @@ from allennlp.common import Params
 from allennlp.data import Vocabulary
 from allennlp.modules.token_embedders import BagOfWordCountsTokenEmbedder
 from allennlp.common.testing import AllenNlpTestCase
-
+from allennlp.common.checks import ConfigurationError
 
 class TestBagOfWordCountsTokenEmbedder(AllenNlpTestCase):
     def setUp(self):
@@ -16,6 +16,7 @@ class TestBagOfWordCountsTokenEmbedder(AllenNlpTestCase):
         self.vocab.add_token_to_namespace("2")
         self.vocab.add_token_to_namespace("3")
         self.vocab.add_token_to_namespace("4")
+        self.non_padded_vocab = Vocabulary(non_padded_namespaces=['tokens'])
 
     def test_forward_calculates_bow_properly(self):
         params = Params({})
@@ -36,6 +37,10 @@ class TestBagOfWordCountsTokenEmbedder(AllenNlpTestCase):
         numpy_tensor = np.array([[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 2, 0]])
         manual_output = torch.from_numpy(numpy_tensor).float()
         assert_almost_equal(embedder_output.data.numpy(), manual_output.data.numpy())
+    
+    def test_ignore_oov_should_fail_on_non_padded_vocab(self):
+        params = Params({"ignore_oov": True})
+        self.assertRaises(ConfigurationError, BagOfWordCountsTokenEmbedder.from_params, self.non_padded_vocab, params)
 
     def test_projects_properly(self):
         params = Params({"projection_dim": 50})
